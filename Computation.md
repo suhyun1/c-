@@ -199,7 +199,6 @@ void initialize(vector<string> &mylist) {	//값을 바꿔줘야 하므로 call b
 	mylist.push_back("rock");
 	mylist.push_back("scissors");
 
-
 }
 int getWin(const string &computer, const string &user) {	//함수내에서 값 바꾸지 않을 것이므로 const
 	int win;
@@ -243,15 +242,12 @@ int main() {
 	string computer;
 	int win;
 
-
 	for (cin >> user; user != "quit"; cin >> user) {
 		computer = getNext(mylist, user);
 
 		cout << computer << endl;
 		cout << user << endl;
 		win = getWin(computer, user);
-
-	;
 
 		switch (win) {
 		case -1:
