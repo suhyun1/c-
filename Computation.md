@@ -177,3 +177,96 @@ int main() {
 }
 ~~~
 
+***
+가위바위보 게임 (랜덤함수를 이용하지 않을 것)
+~~~cpp
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+void initialize(vector<string> &mylist) {	//값을 바꿔줘야 하므로 call by reference
+
+	mylist.push_back("rock");
+	mylist.push_back("paper");
+	mylist.push_back("rock");
+	mylist.push_back("scissors");
+	mylist.push_back("paper");
+	mylist.push_back("scissors");
+	mylist.push_back("rock");
+	mylist.push_back("paper");
+	mylist.push_back("rock");
+	mylist.push_back("scissors");
+
+
+}
+int getWin(const string &computer, const string &user) {	//함수내에서 값 바꾸지 않을 것이므로 const
+	int win;
+	if (user != "rock" && user != "paper" && user != "scissors")
+		win = -100;
+	else if (user == computer)
+		win = 0;
+	else if ((computer == "rock" && user == "scissors") || (computer == "scissors" && user == "paper") || (computer == "paper" && user == "rock"))
+		win = 1;
+	else
+		win = -1;
+
+	return win;
+}
+
+string getNext(const vector<string> &mylist, const string &user) { //값 안바꿀 것
+
+	static int cur = 0; //로컬변수로 쓸 수 없음(전역변수는 쓰지말것) , static을 쓰면 한번 메모리 잡힌 후 반환하지 않고 계속 사용
+
+	cout << cur << endl;
+
+	if (user == "rock")
+		cur += 2;
+	else if (user == "scissors")
+		cur += 3;
+	else if (user == "paper")
+		cur += 4;
+	else
+		cur++;
+
+	return mylist[(cur % mylist.size())];
+}
+
+int main() {
+
+	vector<string> mylist;
+
+	initialize(mylist);
+
+	string user;
+	string computer;
+	int win;
+
+
+	for (cin >> user; user != "quit"; cin >> user) {
+		computer = getNext(mylist, user);
+
+		cout << computer << endl;
+		cout << user << endl;
+		win = getWin(computer, user);
+
+	;
+
+		switch (win) {
+		case -1:
+			cout << "You win" << computer << "," << user << endl;
+			break;
+		case 1:
+			cout << "I win" << computer << "," << user << endl;
+			break;
+		case 0:
+			cout << "We win" << computer << "," << user << endl;
+			break;
+		default:
+			cout << "wrong Input" << endl;
+		}
+						
+	}
+}
+~~~
