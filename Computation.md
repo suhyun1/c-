@@ -24,7 +24,7 @@ if(a!=null && * a> 10)
 - 변수 scope에 대한 example1
 
 ~~~cpp
-for(int i=0;i<10<i++){
+for(int i=0;i<10;i++){
   int j=0;
   j++;
   cout << i << endl;
@@ -57,10 +57,11 @@ cout << i << endl;
 => local 변수의 범위에 영향
 
 ### Functions
-call by value : 값만 복사
+call by value : 값만 복사 <br>
 call by reference : 공간주소넘겨줌
 
-*reference 변수* 는 기존의 메모리 공간을 같이 사용
+** reference 변수 는 기존의 메모리 공간을 같이 사용 **
+
 ~~~cpp
 int max( int &a, int &b){   //const int &a로 쓰면 바꿀 수 없음. 안전하게
   int x;
@@ -71,16 +72,19 @@ int max( int &a, int &b){   //const int &a로 쓰면 바꿀 수 없음. 안전�
 }
 int main(){
 
-  int a=10;
-  int b=10;
-  int c = max(a,20);// error. 상수의 메모리 공간은 x
+  int a = 10;
+		int b = 10;
+	//	int c = max(a, 20);// error. 상수의 메모리 공간은 x
 
-  ind &d = b; //c++의 경우 reference타입 지원함
-  int * e = &b; //포인터도 지원함
-  int f=b; //값만 복사한 것
-  d=100
+		int &d = b; //c++의 경우 reference타입 지원함
+		int * e = &b; //포인터도 지원함
+		int f = b; //값만 복사한 것
 
-  cout << d << * e << endl;  //출력값은 같음
+		cout << d << * e  << f << endl;  //10 10 10
+		b = 100;
+		cout << d << * e << f << endl;  // 100 100 10
+		d = 200;
+		cout << b << * e << f << endl;  // 200 200 10
 }
 
 ~~~
@@ -90,7 +94,11 @@ int main(){
 d는 할당받은 메모리 공간 없음 (b 것을 같이 씀). 데이터 안정성에 문제 생김
 
 e는 포인터 변수로 자신의 메모리 공간이 할당되어 있음. 주소값만 복사한 것. 마찬가지로 데이터 안정성에 문제<br>
-function call 하면 주소값 복사해야해서 효율성 떨어짐
+
+f는 값만 복사한 것.
+<br>
+
+function call 하면 주소값 복사해야해서 효율성 떨어짐 => reference타입을 파라미터로 사용
 
 * const를 사용하여 안전성 확보할 수 있음
 
@@ -101,6 +109,7 @@ int max(const int &a, int &b){
 ~~~
 
 * 만약 리턴타입이 reference타입이라면?
+
 ~~~cpp
 int& max( int &a, int &b){  
   int x;
@@ -178,7 +187,7 @@ int main() {
 ~~~
 
 ***
-가위바위보 게임 (랜덤함수를 이용하지 않을 것)
+가위바위보 게임 (랜덤함수를 이용하지 않을 것, 벡터 사용하기)
 ~~~cpp
 #include <iostream>
 #include <string>
@@ -198,6 +207,7 @@ void initialize(vector<string> &mylist) {	//값을 바꿔줘야 하므로 call b
 	mylist.push_back("paper");
 	mylist.push_back("rock");
 	mylist.push_back("scissors");
+
 
 }
 int getWin(const string &computer, const string &user) {	//함수내에서 값 바꾸지 않을 것이므로 const
@@ -242,12 +252,15 @@ int main() {
 	string computer;
 	int win;
 
+
 	for (cin >> user; user != "quit"; cin >> user) {
 		computer = getNext(mylist, user);
 
 		cout << computer << endl;
 		cout << user << endl;
 		win = getWin(computer, user);
+
+	;
 
 		switch (win) {
 		case -1:
@@ -262,7 +275,7 @@ int main() {
 		default:
 			cout << "wrong Input" << endl;
 		}
-						
+
 	}
 }
 ~~~
