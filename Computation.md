@@ -12,14 +12,6 @@
 ### Selection
 조건문
 
-\* 참고
-~~~cpp
-int * a;
-// if( * a> 10) //이 때 a는 null이면 안됨
-//따라서 아래와 같이 사용
-if(a!=null && * a> 10)
-~~~
-
 ### Iteration (for loop)
 - 변수 scope에 대한 example1
 
